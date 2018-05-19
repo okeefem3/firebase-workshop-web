@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-content">
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="name" type="text" [(ngModel)]="brewery.name">
+              <label for="name" [ngClass]="decideLabelClass(brewery.name)">Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="description" class="materialize-textarea" [(ngModel)]="brewery.description"></textarea>
+              <label for="description" [ngClass]="decideLabelClass(brewery.description)">Description</label>
+            </div>
+          </div>
+        </div>
+        <div class="card-action">
+          <div class="row">
+            <div class="col s3">
+              <a class="waves-effect waves-light btn" (click)="saveBrewery()">SAVE</a>
+            </div>
+            <div class="col s3">
+              <a class="waves-effect waves-light btn" [routerLink]="['/list']">CANCEL</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

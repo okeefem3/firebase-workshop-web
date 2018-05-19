@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-content">
+          <div class="row">
+              <span class="card-title col s10">{{ brewery.name }}</span><span class="card-title col s2">{{ brewery.averageRating }}/5</span>
+          </div>
+          <p>{{ brewery.description }}</p>
+          <div class="row">
+            <span class="col s10"></span><span class="col s2">views: {{ brewery.views ? brewery.views : 0 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2>Reviews</h2>
+  <div class="row" *ngFor="let review of reviews">
+    <review [review]="review" 
+            [currentUserId]="getCurrentUid()"
+            (reviewSaved)="saveReview($event)" 
+            (reviewDeleted)="deleteReview($event)"></review>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <a class="btn-floating btn-large waves-effect waves-light" (click)="addReview()">
+        <i class="material-icons">add</i>
+      </a>
+    </div>
+  </div>
+</div>
+

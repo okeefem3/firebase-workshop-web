@@ -1,0 +1,54 @@
+<div class="col s12">
+  <div class="card">
+    <div class="card-content">
+      <div *ngIf="editing; else not_editing">
+        <div class="row">
+          <div class="row">
+            <div class="input-field col s6">
+              <span class="pointer" *ngFor="let star of stars" (click)="review.rating = star"><i class="material-icons">{{ decideStar(review.rating, star) }}</i></span>
+            </div>
+          </div>
+          <div class="input-field col s6">
+            <input id="title" type="text" [(ngModel)]="review.title">
+            <label for="title" [ngClass]="decideLabelClass(review.title)">Title</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id="review" class="materialize-textarea" [(ngModel)]="review.text"></textarea>
+            <label for="review" [ngClass]="decideLabelClass(review.text)">Review</label>
+          </div>
+        </div>
+      </div>
+      <ng-template #not_editing>
+        <div class="row">
+          <div class="input-field col s6">
+            <span *ngFor="let star of stars"><i class="material-icons">{{ decideStar(review.rating, star) }}</i></span>
+          </div>
+        </div>
+        <span class="card-title">{{ review.title }}</span>
+        <p>{{ review.text }}</p>
+      </ng-template>
+    </div>
+    <div class="card-action">
+      <div class="row">
+        <div *ngIf="editing; else not_editing_actions">
+          <div class="col s3">
+            <a class="waves-effect waves-light btn" (click)="onSave()">SAVE</a>
+          </div>
+          <div class="col s3">
+            <a class="waves-effect waves-light btn" (click)="onCancel()">CANCEL</a>
+          </div>
+        </div>
+        <ng-template #not_editing_actions>
+          <div class="col s3" *ngIf="currentUserId === review.uid">
+            <a class="waves-effect waves-light btn" (click)="onEdit()">EDIT</a>
+          </div>
+          <div class="col s3" *ngIf="currentUserId === review.uid">
+            <a class="waves-effect waves-light btn" (click)="onDelete()">DELETE</a>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
