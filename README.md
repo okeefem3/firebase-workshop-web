@@ -31,3 +31,6 @@ To set up the development environment on your own machine you will need to downl
 * Git https://git-scm.com/ (Any git client will work just fine)
 * Code editor, We recommend Visual Studio Code (https://code.visualstudio.com/ - free) or Webstorm (https://www.jetbrains.com/webstorm/ - paid)
 ** All workshop demos will be done either in Stackblitz or Visual Studio Code
+
+NOTE 
+To deploy to cloud functions or hosting, you must have Node and the Firebase CLI installed on your machine
