@@ -35,23 +35,11 @@ export class BreweryComponent implements OnInit {
       /**
        * Get brewery document reference from Firestore and listen to changes
        */
-      this.breweryRef = this.db.collection('breweries').doc(breweryId);
-      this.breweryRef.onSnapshot(doc => {
-        this.brewery = { ...doc.data(), id: doc.id };
-      });
+      
       /**
        * Get brewery reviews collection reference from Firestore and listen to changes
        */
-      this.reviewsRef = this.breweryRef.collection('reviews');
-      this.reviewsRef.onSnapshot({
-        includeQueryMetadataChanges: true
-      }, (snapShot) => {
-        this.reviews = snapShot.docs.map((d) => {
-          const data = d.data();
-          const id = d.id;
-          return { ...data, id: id }
-        });
-      });
+      
     });
   }
 
@@ -59,11 +47,7 @@ export class BreweryComponent implements OnInit {
    * Add a review to the reviews collection
    */
   addReview() {
-    this.reviewsRef.add({
-      uid: this.getCurrentUid(),
-      createdOn: firebase.firestore.FieldValue.serverTimestamp(),
-      rating: 0
-    });
+    
   }
 
   /**
@@ -71,15 +55,14 @@ export class BreweryComponent implements OnInit {
    * @param review
    */
   saveReview(review) {
-    this.breweryRef.collection('reviews').doc(review.id)
-      .update({ ...review, breweryId: this.brewery.id });
+    
   }
 
   /**
    * Delete the given review id from the reviews collection
    */
   deleteReview(id) {
-    this.breweryRef.collection('reviews').doc(id).delete();
+    
   }
 
   /**
@@ -87,17 +70,13 @@ export class BreweryComponent implements OnInit {
    * @param breweryId 
    */
   postView(breweryId) {
-    this.http.post('https://us-central1-kla-firebase-workshop.cloudfunctions.net/httpTriggers/brewery-viewed', {
-      breweryId: breweryId
-    }).subscribe((data: any) => {
-      console.log(`You are viewer number ${data.views}`);
-    });
+    
   }
 
   /**
    * You know what to do ;)
    */
   getCurrentUid() {
-    return firebase.auth().currentUser.uid;
+    
   }
 }

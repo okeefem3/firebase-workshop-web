@@ -17,7 +17,6 @@ import { environment } from '../environments/environment';
 /*
  * Firebase initialization and configuration happens here
  */
-firebase.initializeApp(environment.firebaseConfig);
 
 @NgModule({
   declarations: [

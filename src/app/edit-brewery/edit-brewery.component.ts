@@ -23,29 +23,14 @@ export class EditBreweryComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.db = firebase.firestore();
-    this.route.params.subscribe(params => {
-      // Getting the brewery id out of the route
-      const breweryId = params['id'];
-      /**
-       * Get brewery document reference from Firestore
-       */
-      this.breweryRef = this.db.collection('breweries').doc(breweryId);
-      this.breweryRef.get().then((doc) => {
-        this.brewery = { ...doc.data(), id: doc.id }
-      });
-    });
+    
   }
 
   /**
    * Update the brewery document 
    */
   saveBrewery() {
-    this.breweryRef
-      .update(this.brewery)
-      .then(() => {
-        alert('Saved successfully!');
-      });
+    
   }
 
   // Ignore me this bit is to make some materialize styling work with angular template binding :)
