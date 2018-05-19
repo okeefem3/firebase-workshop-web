@@ -40,9 +40,9 @@ export class AuthComponent {
   }
 
   /**
-   * Sign in to Firebase auth with the Facebook provider
+   * Helper function to create a Firebase Google auth provider with custom parameters
    */
-  signInWithFacebook() {
+  createGoogleAuthProvider() {
     
   }
 
@@ -77,36 +77,6 @@ export class AuthComponent {
   }
 
   /**
-   * Generic helper function to link the current user with the given auth credentials
-   * Use to convert an anonymours user to a different auth type
-   * @param credential 
-   */
-  private linkAccountWithCredential(credential) {
-    
-  }
-
-  /**
-   * Link an existing Firebase non anonymous user to a Google sign in
-   */
-  linkAccountToGoogle() {
-    
-  }
-
-  /**
-   * Link an existing Firebase non anonymous user to an email/password sign in
-   */
-  linkAccountToEmailAndPassword() {
-    
-  }
-
-  /**
-   * Helper function to create a Firebase Google auth provider with custom parameters
-   */
-  createGoogleAuthProvider() {
-    
-  }
-
-  /**
    * Helper function to show that the user was signed in successfully
    * @param user 
    */
@@ -125,6 +95,43 @@ export class AuthComponent {
    * Retrieve the current user from Firebase auth
    */
   getCurrentUser() {
+    
+  }
+
+  /**
+   * BONUS 
+   * Complete these on your own if you like, consult the docs or 
+   * our finished code for help.
+   */
+
+  /**
+   * Sign in to Firebase auth with the Facebook provider
+   * HINT You will need to obtain API credentials from Facebook for this.
+   */
+  signInWithFacebook() {
+    
+  }
+
+  /**
+   * Generic helper function to link the current user with the given auth credentials
+   * Use to convert an anonymours user to a different auth type
+   * @param credential 
+   */
+  linkAccountWithCredential(credential) {
+    
+  }
+
+  /**
+   * Link an existing Firebase non anonymous user to a Google sign in
+   */
+  linkAccountToGoogle() {
+    
+  }
+
+  /**
+   * Link an existing Firebase non anonymous user to an email/password sign in
+   */
+  linkAccountToEmailAndPassword() {
     
   }
 }
