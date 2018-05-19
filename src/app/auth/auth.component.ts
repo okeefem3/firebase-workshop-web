@@ -57,14 +57,15 @@ export class AuthComponent {
   }
 
   /**
-   * Sign in to Firebase auth with the Facebook provider
+   * Helper function to create a Firebase Google auth provider with custom parameters
    */
-  signInWithFacebook() {
-    const provider = new firebase.auth.FacebookAuthProvider();
+  createGoogleAuthProvider() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    // Allow user to pick if they have multiple accounts
     provider.setCustomParameters({
-      'display': 'popup'
+      prompt: 'select_account'
     });
-    this.signInWithPopup(provider);
+    return provider;
   }
 
   /**
@@ -119,6 +120,46 @@ export class AuthComponent {
   }
 
   /**
+   * Helper function to show that the user was signed in successfully
+   * @param user 
+   */
+  signInSuccessful(user) {
+    alert('Successfully signed in as ' + user.displayName);
+  }
+
+  /**
+   * Sign out of Firebase auth
+   */
+  signOut() {
+    firebase.auth().signOut();
+  }
+
+  /**
+   * Retrieve the current user from Firebase auth
+   */
+  getCurrentUser() {
+    return firebase.auth().currentUser;
+  }
+
+  /**
+   * BONUS 
+   * Complete these on your own if you like, consult the docs or 
+   * our finished code for help.
+   */
+
+  /**
+   * Sign in to Firebase auth with the Facebook provider
+   * HINT You will need to obtain API credentials from Facebook for this.
+   */
+  signInWithFacebook() {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    provider.setCustomParameters({
+      'display': 'popup'
+    });
+    this.signInWithPopup(provider);
+  }
+
+  /**
    * Generic helper function to link the current user with the given auth credentials
    * Use to convert an anonymours user to a different auth type
    * @param credential 
@@ -156,39 +197,5 @@ export class AuthComponent {
     }, (error) => {
       console.log("Account linking to email/password error", error);
     });
-  }
-
-  /**
-   * Helper function to create a Firebase Google auth provider with custom parameters
-   */
-  createGoogleAuthProvider() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    // Allow user to pick if they have multiple accounts
-    provider.setCustomParameters({
-      prompt: 'select_account'
-    });
-    return provider;
-  }
-
-  /**
-   * Helper function to show that the user was signed in successfully
-   * @param user 
-   */
-  signInSuccessful(user) {
-    alert('Successfully signed in as ' + user.displayName);
-  }
-
-  /**
-   * Sign out of Firebase auth
-   */
-  signOut() {
-    firebase.auth().signOut();
-  }
-
-  /**
-   * Retrieve the current user from Firebase auth
-   */
-  getCurrentUser() {
-    return firebase.auth().currentUser;
   }
 }
