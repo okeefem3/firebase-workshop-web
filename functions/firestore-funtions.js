@@ -53,7 +53,9 @@ module.exports.deleteBreweryReview = function(snashot, context) {
 }
 
 /**
- * Deletes the corresponding review on the breweries collection and updates the average rating on the brewery
+ * Deletes the corresponding review on the breweries collection
+ * updates the average rating on the brewery
+ * deleted the review mapping
  * @param {*} snashot 
  * @param {*} context 
  */
@@ -62,9 +64,17 @@ module.exports.deleteUserReview = function(snashot, context) {
     const deletedReview = snashot.data();
     const docRef = admin.firestore().collection('breweries').doc(deletedReview.breweryId);
     docRef.collection('reviews').doc(reviewId).delete();
+    // Delete the Brewery/User review mapping
+    admin.firestore().collection('reviewMapping').doc(`${deletedReview.breweryId}_${deletedReview.uid}`).delete();
     return aggregateRatings(deletedReview.breweryId);
 }
 
+/**
+ * Function to delete the old user profile image when a new one is upload
+ * so we do not crowd the storage bucket!
+ * @param {*} change 
+ * @param {*} context 
+ */
 module.exports.userProfileImageChange = function(change, context) {
     const userId = context.params.userId;
     const previousValue = change.before.data();
@@ -72,8 +82,6 @@ module.exports.userProfileImageChange = function(change, context) {
     console.log(`previous value ${previousValue.profileImageUrl}`);
     console.log(`new value ${newValue.profileImageUrl}`);
     if (previousValue.profileImageUrl && newValue.profileImageUrl && !(newValue.profileImageUrl  === previousValue.profileImageUrl  || newValue.profileImageUrl  === defaultImagePath )) {
-        // Delete the old image so we do not crowd our storage bucket!
-        // var imageRef = admin.storage().refFromURL(previousValue.profileImageUrl);
         const bucket = gcs.bucket('kla-firebase-workshop.appspot.com')
                           .file(`users/${userId}/${previousValue.profileImagePath}`)
                           .delete()
