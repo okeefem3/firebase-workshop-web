@@ -7,6 +7,12 @@ Or if you followed the directions to set up your development environment, just c
 
 # Connect An App To Firebase
 
+Goals:
+* Set up a Firebase project 
+* Add Firebase project web app configuration to our app
+* Initialize our app as a Firebase app using the JS SDK
+* Install Firebase CLI tools and log in
+
 References:
 * https://firebase.google.com/docs/web/setup
 * https://nodejs.org/en/
@@ -24,6 +30,12 @@ Steps:
 
 # Authentication
 
+Goals:
+* Set up ability for users to sign up and sign in anonymously, using email/password or Google
+* Set up ability for users to convert an anonymous account to email/password or Google
+* Set up basic monitoring of auth state as well as ability to sign out
+* Show how to set auth language
+
 References:
 * https://firebase.google.com/docs/auth/web/start
 
@@ -32,5 +44,42 @@ Steps:
     1. Select Authentication from the menu
     2. Select the SIGN-IN METHOD tab
     3. Enable Email/Password (if needed) Google and Anonymous
-* In the the auth/auth.component.ts file implement sign up/in code for these three methods
+* In the the auth.component.ts file implement sign up/in code for these three methods
+* Implement the code to convert an anonymous user to Email/Password and Google
+* Implement code to get the current user from Firebase auth, and to sign out
+* Implement code in the app.component.ts to set the auth language and listen to auth state changes
+    * You will also want to implement code in home.component.ts to listen to auth state changes, and to sign out
+* BONUS, if you have the time explore some of the bonus functionality we have drafted up in auth.component.ts, or check out the docs for something different
+
+Wasn't that a lot easier than implementing auth from scratch?
+
+# Firestore
+
+Goals:
+* Set up ability for user to read, add, update and delete breweries
+* Set up ability for user to read, add, update and delete reviews as a collection owned by a brewery  document
+* Set up basic Firestore security rules
+
+# Hosting
+
+Goals:
+* Host our app through Firebase!
+
+# Cloud Functions
+
+Goals:
+* When a new user is created through auth, add a user to Firestore
+* When a review is updated or deleted, sync the data with a collection of reviews under the user who created it and update the average rating on the brewery
+    * This will also include adding to the app the ability to read, delete and update reviews from a user profile screen
+* When a brewery is viewed send an http request to update the number of views on the brewery
+* BONUS Cron jobs
+
+# Storage & Cloud Vision
+
+Goals:
+* Build the ability for a user to upload a profile image
+* Build a function that will moderate the profile image using the Cloud Vision API
+* Update firestore and storage rules to block a locked user from doing any add/update/delete actions
+
+
 
