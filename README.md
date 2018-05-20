@@ -50,7 +50,6 @@ Steps:
 * Implement code to get the current user from Firebase auth, and to sign out
 * Implement code in the app.component.ts to set the auth language and listen to auth state changes
     * You will also want to implement code in home.component.ts to listen to auth state changes, and to sign out
-* TODO password rest/verification stuff
 * BONUS, if you have the time explore some of the bonus functionality we have drafted up in auth.component.ts, or check out the docs for something different
 
 Wasn't that a lot easier than implementing auth from scratch?
