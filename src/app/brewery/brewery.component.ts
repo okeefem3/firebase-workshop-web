@@ -56,7 +56,7 @@ export class BreweryComponent implements OnInit {
   }
 
   /**
-   * Add a review to the reviews collection
+   * Add a review to the reviews collection and a corresponding review mapping
    */
   addReview() {
     this.reviewsRef.add({
