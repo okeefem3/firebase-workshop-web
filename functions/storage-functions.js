@@ -1,8 +1,9 @@
 const vision = require('@google-cloud/vision');
 const exec = require('child-process-promise').exec;
-const visionClient = new vision.ImageAnnotatorClient();
 const gcs = require('@google-cloud/storage')();
 const admin = require('firebase-admin');
+const visionClient = new vision.ImageAnnotatorClient();
+
 
 /**
  * Use the Google Cloud Vision API to determine whether a user profile image needs to be moderated.

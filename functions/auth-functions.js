@@ -33,7 +33,7 @@ module.exports.newUser = function(user, context) {
 }
 
 /**
- * Sends a welcome email using nodemailer see the following for reference
+ * Helper function to send a welcome email using nodemailer, see the following for reference
  * https://nodemailer.com
  * Note that this library is NOT tied to firebase, it is just 
  * one (free) option for sending emails using node that we chose to use
@@ -54,11 +54,10 @@ function sendWelcomeEmail(email) {
       to: email,
     };
   
-    // The user subscribed to the newsletter.
     mailOptions.subject = 'Welcome New User!';
     mailOptions.text = 'Welcome! We hope that you enjoy learning about Firebase.';
     // Can also add HTML
-    // mailOptions.html = 'Welcome! We hope that you enjoy learning about Firebase.';
+    // mailOptions.html = '<div>Welcome! We hope that you enjoy learning about Firebase.</div>';
 
     const mailTransport = getTransporter(gmailEmail, gmailPassword, 'gmail');
 
@@ -69,10 +68,16 @@ function sendWelcomeEmail(email) {
         console.log('Message sent: %s', info.messageId);
         return console.log('New welcome email sent to: %s', email);
     });
-  }
+}
 
-  function getTransporter(email, password, service) {
-    console.log('creating gmail transporter');
+/**
+ * Helper function to create a nodemailer transporter with the given email, password and service
+ * @param {*} email 
+ * @param {*} password 
+ * @param {*} service 
+ */
+function getTransporter(email, password, service) {
+    console.log('creating transporter');
     // Set up our node mailer
     const transporter = nodemailer.createTransport({
         service: service,
