@@ -35,6 +35,7 @@ Goals:
 * Set up ability for users to convert an anonymous account to email/password or Google
 * Set up basic monitoring of auth state as well as ability to sign out
 * Show how to set auth language
+* Show how to use the built in password reset and verification functionality
 
 References:
 * https://firebase.google.com/docs/auth/web/start
@@ -49,6 +50,7 @@ Steps:
 * Implement code to get the current user from Firebase auth, and to sign out
 * Implement code in the app.component.ts to set the auth language and listen to auth state changes
     * You will also want to implement code in home.component.ts to listen to auth state changes, and to sign out
+* TODO password rest/verification stuff
 * BONUS, if you have the time explore some of the bonus functionality we have drafted up in auth.component.ts, or check out the docs for something different
 
 Wasn't that a lot easier than implementing auth from scratch?
@@ -59,6 +61,12 @@ Goals:
 * Set up ability for user to read, add, update and delete breweries
 * Set up ability for user to read, add, update and delete reviews as a collection owned by a brewery  document
 * Set up basic Firestore security rules
+* BONUS TODO set up relationship between user and brewery to prevent multiple reviews (adding, checking for showing add button, and add the rule)
+
+References
+* https://firebase.google.com/docs/firestore/
+* https://angularfirebase.com/lessons/firestore-nosql-data-modeling-by-example/
+* https://angularfirebase.com/lessons/advanced-firestore-nosql-data-structure-examples/
 
 # Hosting
 
@@ -72,7 +80,7 @@ Goals:
 * When a review is updated or deleted, sync the data with a collection of reviews under the user who created it and update the average rating on the brewery
     * This will also include adding to the app the ability to read, delete and update reviews from a user profile screen
 * When a brewery is viewed send an http request to update the number of views on the brewery
-* BONUS Cron jobs
+* BONUS/TODO Cron jobs
 
 # Storage & Cloud Vision
 
