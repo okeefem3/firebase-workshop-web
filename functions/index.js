@@ -43,7 +43,3 @@ exports.deleteUserReview = functions.firestore.document('users/{userId}/reviews/
   */
  const httpFunctions = require('./http-functions');
  exports.httpTriggers = functions.https.onRequest(httpFunctions.expressApp);
-
- /**
-  * Google Cloud Pub/Sub Triggers
-  */

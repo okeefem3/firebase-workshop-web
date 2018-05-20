@@ -9,15 +9,7 @@ const admin = require('firebase-admin');
  * @param {*} context 
  */
 module.exports.updateBreweryReview = function(change, context) {
-    console.log(change);
-    console.log(context);
-    const reviewId = context.params.reviewId;
-    const previousValue = change.before.data();
-    const newValue = change.after.data();
-
-    // Sync changes with user review collection.
-    const docRef = admin.firestore().collection('users').doc(newValue.uid);
-    updateReview(docRef, newValue, previousValue, reviewId);
+    
 }
 
 /**
@@ -28,15 +20,7 @@ module.exports.updateBreweryReview = function(change, context) {
  * @param {*} context 
  */
 module.exports.updateUserReview = function(change, context) {
-    console.log(change);
-    console.log(context);
-    const reviewId = context.params.reviewId;
-    const previousValue = change.before.data();
-    const newValue = change.after.data();
-
-    // Sync changes with user review collection.
-    const docRef = admin.firestore().collection('breweries').doc(newValue.breweryId);
-    updateReview(docRef, newValue, previousValue, reviewId);
+    
 }
 
 /**
@@ -45,11 +29,7 @@ module.exports.updateUserReview = function(change, context) {
  * @param {*} context 
  */
 module.exports.deleteBreweryReview = function(snashot, context) {
-    const reviewId = context.params.reviewId;
-    const deletedReview = snashot.data();
-    const docRef = admin.firestore().collection('users').doc(deletedReview.uid);
-    docRef.collection('reviews').doc(reviewId).delete();
-    return aggregateRatings(deletedReview.breweryId);
+    
 }
 
 /**
@@ -60,13 +40,7 @@ module.exports.deleteBreweryReview = function(snashot, context) {
  * @param {*} context 
  */
 module.exports.deleteUserReview = function(snashot, context) {
-    const reviewId = context.params.reviewId;
-    const deletedReview = snashot.data();
-    const docRef = admin.firestore().collection('breweries').doc(deletedReview.breweryId);
-    docRef.collection('reviews').doc(reviewId).delete();
-    // Delete the Brewery/User review mapping
-    admin.firestore().collection('reviewMapping').doc(`${deletedReview.breweryId}_${deletedReview.uid}`).delete();
-    return aggregateRatings(deletedReview.breweryId);
+    
 }
 
 /**
@@ -76,45 +50,14 @@ module.exports.deleteUserReview = function(snashot, context) {
  * @param {*} context 
  */
 module.exports.userProfileImageChange = function(change, context) {
-    const userId = context.params.userId;
-    const previousValue = change.before.data();
-    const newValue = change.after.data();
-    console.log(`previous value ${previousValue.profileImageUrl}`);
-    console.log(`new value ${newValue.profileImageUrl}`);
-    if (previousValue.profileImageUrl && newValue.profileImageUrl && !(newValue.profileImageUrl  === previousValue.profileImageUrl  || newValue.profileImageUrl  === defaultImagePath )) {
-        const bucket = gcs.bucket('kla-firebase-workshop.appspot.com')
-                          .file(`users/${userId}/${previousValue.profileImagePath}`)
-                          .delete()
-                          .then(() => {
-                            return null;
-                           })
-                          .catch(err => {
-                            console.error('ERROR:', err);
-                          }); 
-    }
-    return null;
+    
 }
 
 /**
  * Aggregates review data for breweries
  */
 function aggregateRatings(breweryId) {
-    const docRef = admin.firestore().collection('breweries').doc(breweryId);
-
-    return docRef.collection('reviews').get().then(querySnapshot => {
-        const numberReviews = querySnapshot.size;
-        const totalRating = querySnapshot.docs.map(doc => doc.data().rating)
-                                                .reduce((rating, total) => rating + total, 0);
-                                                console.log(totalRating);
-
-        const averageRating = (totalRating / numberReviews).toFixed(2);
-        console.log(averageRating);
-
-        return docRef.update({ averageRating:  averageRating, numberReviews: numberReviews });
-    }).catch(e => {
-        console.log(`Error fetching brewery ratings for ID ${breweryId}`);
-        console.log(e);
-    });
+    
 }
 
  /**
@@ -126,13 +69,7 @@ function aggregateRatings(breweryId) {
   * @param {*} reviewId 
   */
  function updateReview(docRefToUpdate, newValue, previousValue, reviewId) {
-    if (checkReviewChanged(newValue, previousValue)) {
-        docRefToUpdate.collection('reviews').doc(reviewId).set(newValue);
-    } else return null;
-
-    // Only update the average if there is a difference
-    if (newValue && previousValue && newValue.rating === previousValue.rating) return null;
-    return aggregateRatings(newValue.breweryId);
+    
  }
 
  /**
@@ -141,7 +78,5 @@ function aggregateRatings(breweryId) {
   * @param {*} previousValue 
   */
  function checkReviewChanged(newValue, previousValue) {
-     return newValue.rating !== previousValue.rating || 
-            newValue.text !== previousValue.text || 
-            newValue.title !== previousValue.title;
+     
  }
