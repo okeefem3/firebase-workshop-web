@@ -63,6 +63,10 @@ export class BreweryComponent implements OnInit {
       uid: this.getCurrentUid(),
       createdOn: firebase.firestore.FieldValue.serverTimestamp(),
       rating: 0
+    }).then((review) => {
+      this.db.collection('reviewMapping').doc(`${this.brewery.id}_${this.getCurrentUid()}`).set({ reviewId: review.id });
+    }).catch((e) => {
+      alert('You already added a review for this brewery!')
     });
   }
 

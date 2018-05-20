@@ -62,6 +62,8 @@ module.exports.deleteUserReview = function(snashot, context) {
     const deletedReview = snashot.data();
     const docRef = admin.firestore().collection('breweries').doc(deletedReview.breweryId);
     docRef.collection('reviews').doc(reviewId).delete();
+    // Delete the Brewery/User review mapping
+    admin.firestore().collection('reviewMapping').doc(`${deletedReview.breweryId}_${deletedReview.uid}`).delete();
     return aggregateRatings(deletedReview.breweryId);
 }
 
