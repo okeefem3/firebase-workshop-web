@@ -67,6 +67,18 @@ References
 * https://angularfirebase.com/lessons/firestore-nosql-data-modeling-by-example/
 * https://angularfirebase.com/lessons/advanced-firestore-nosql-data-structure-examples/
 
+Steps:
+* In brewery-list.component.ts get the reference to Firestore and breweries collection
+* Listen to changes in the breweries collection and make the collection accessible to the component 
+* Implement the ability to add and delete breweries from the collection
+* Implement getting the user id from the current logged in user
+* In brewery.component.ts get the reference to Firestore, and the brewery document associated with ID in the route params
+* Listen to changes in the brewery document and make the brewery available to the component
+* Get the reviews collection from the brewery document, listen to changes and make it available to the component
+* Implement adding, saving and deleting a review
+* Implement getting the user id from the current logged in user
+
+
 # Hosting
 
 Goals:

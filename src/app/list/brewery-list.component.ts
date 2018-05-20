@@ -13,7 +13,7 @@ export class BreweryListComponent implements OnInit {
 
   ngOnInit() {
     // Get Firestore reference
-    this.db = firebase.firestore();
+
     // Get breweries collection reference from Firestore, querying to sort by name and listen to changes
   }
 
