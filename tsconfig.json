@@ -14,6 +14,20 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ng-fire-auth": [
+        "dist/ng-fire-auth"
+      ],
+      "ng-fire-brewery": [
+        "dist/ng-fire-brewery"
+      ],
+      "ng-fire-review": [
+        "dist/ng-fire-review"
+      ],
+      "ng-fire-user": [
+        "dist/ng-fire-user"
+      ]
+    }
   }
 }
