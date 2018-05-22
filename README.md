@@ -3,7 +3,26 @@ Starter code for the firebase workshop!
 Stackblitz link
 https://stackblitz.com/github/okeefem3/firebase-workshop-web/tree/connect-to-firebase
 
-Or if you followed the directions to set up your development environment, just clone the project and checkout the connect-to-firebase branch.
+# Development environment set up
+* Download Node, we recommend the LTS version 
+    * https://nodejs.org/en/
+* Open a terminal window and verify that you have npm installed with `npm -v`
+* Install Firebase CLI latest version `npm install -g firebase-tools`
+    * https://firebase.google.com/docs/cli/
+* Install Angular CLI latest version `npm install -g @angular/cli`
+    * https://cli.angular.io/
+* Install git, or any git client that you are comfortable with
+    * git https://git-scm.com/ 
+    * Gitkraken is an easy to use free dekstop client https://www.gitkraken.com/ 
+* Clone our repository and checkout the connect-to-firebase branch for the starter code
+* You will want a goode code editor, we recommend Visual Studio Code (free) or Webstorm (paid, has free trial)
+    * https://code.visualstudio.com/
+    * https://www.jetbrains.com/webstorm/
+    * Other editors like Sublime and Atom also work well
+* Once you have the project set up, from the root directory you can run `ng serve` and point your browser to http://localhost:4200/ 
+* The recomended browsers to use would be Google Chrome or Mozilla Firefox
+    * https://www.google.com/chrome/
+    * https://www.mozilla.org/en-US/
 
 # Connect An App To Firebase
 
@@ -22,7 +41,7 @@ Steps:
 * Initialize a firebase project https://console.firebase.google.com/
 * Copy and paste the Firebase web config key/value pairs into the object defined in ./src/config/firebase.config.ts
 * Initialize the firebase app in the app.module.ts file
-* Setup Firebase CLI (We will use this later to deploy to hosting and cloud functions)
+* Setup Firebase CLI if you have not already (We will use this later to deploy to hosting and cloud functions)
     1. Install Node LTS https://nodejs.org/en/
     2. Open a terminal on your machine and run `npm install -g firebase-tools`
     3. run `firebase login` and login with the SAME account that you used to create your Firebase project
@@ -78,11 +97,51 @@ Steps:
 * Implement adding, saving and deleting a review
 * Implement getting the user id from the current logged in user
 
-
 # Hosting
 
 Goals:
 * Host our app through Firebase!
+
+References:
+* https://firebase.google.com/docs/hosting/
+
+Steps:
+* If you have ng serve running, kill it with ctrl-c
+* From the the app root directory run `firebase init` and answer the prompts as follows
+    * CLI features - use the arrow keys and space bar to select
+        1. Firestore
+        2. Functions
+        3. Hosting
+        4. Storage
+    * Hit enter to continue
+    * Firestore Rules? 
+        * use the default (just hit enter)
+    * Firestore Indexes? 
+        * use the default (just hit enter)
+    * Language for Cloud Functions?
+        * Select Javascript and hit enter
+    * ESLint
+        * type Y and hit enter
+    * Overwrite functions/package.json? 
+        * type N and hit enter
+        * GOTCHA if you say yes here your functions will have a hard time finding our third part dependencies and won't work
+    * Overwrite functions/.eslintrc.json?
+        * type N and hit enter
+    * Overwrite functions/index.js?
+        * type N and hit enter
+        * GOTCHA if you say yes here, you will not have the starter code for functions!
+    * Install dependencies with npm now? 
+        * type Y and hit enter
+    * What do you want to use as your public directory?
+        * type dist and hit enter
+        * GOTCHA if you build and deploy your app but nothing shows up when you navigate to your hosting URL, it may be because you did not point to the dist directory in this step
+    * Configure as a single page app?
+        * type y and hit enter
+    * What file should be used for Storage Rules?
+        * use the default (just hit enter)
+* Run `ng build` to build your app
+* Run  `firebase deploy --only hosting` 
+    * Follow the link that the CLI tools spit out to reach your now publicly hosted app
 
 # Cloud Functions
 
