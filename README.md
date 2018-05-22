@@ -1,7 +1,9 @@
-Starter code for the firebase workshop!
+Finished code for the firebase workshop by Kunz Leigh & Associates!
+
+## Working title: BrewerBase
 
 Stackblitz link
-https://stackblitz.com/github/okeefem3/firebase-workshop-web/tree/connect-to-firebase
+https://stackblitz.com/github/okeefem3/firebase-workshop-web
 
 # Development environment set up 
 ## Please do before coming to the workshop
