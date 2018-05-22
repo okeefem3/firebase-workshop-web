@@ -1,5 +1,7 @@
 Starter code for the firebase workshop!
 
+## Working title: BrewerBase
+
 Stackblitz link
 https://stackblitz.com/github/okeefem3/firebase-workshop-web/tree/connect-to-firebase
 
@@ -82,7 +84,7 @@ Goals:
 * Set up ability for user to read, add, update and delete breweries
 * Set up ability for user to read, add, update and delete reviews as a collection owned by a brewery  document
 * Set up basic Firestore security rules
-* BONUS TODO set up relationship between user and brewery to prevent multiple reviews (adding, checking for showing add button, and add the rule)
+* Set up relationship between user and brewery part 1
 
 References
 * https://firebase.google.com/docs/firestore/
@@ -97,8 +99,10 @@ Steps:
 * In brewery.component.ts get the reference to Firestore, and the brewery document associated with ID in the route params
 * Listen to changes in the brewery document and make the brewery available to the component
 * Get the reviews collection from the brewery document, listen to changes and make it available to the component
-* Implement adding, saving and deleting a review
 * Implement getting the user id from the current logged in user
+* Implement adding, saving and deleting a review
+  * When adding a review, add a document to the breweryMapping collection with a custom id of breweryId_uid 
+* Set up auth based rules and rule that keeps users from reviewing a brewery more than once
 
 # Hosting
 
@@ -162,9 +166,15 @@ References:
 * https://angularfirebase.com/lessons/firestore-cloud-functions-data-aggregation/
 
 Steps:
+* For each step, run `firebase deploy --only functions` this will run ESLint before deploying and will fail if there are any errors. If the deploy succeeds, the functions will be immediately available
+    * You can go to the Functions > logs section of your Firebase project console to help debug your functions
 * If you have not already run `npm install` from the /functions directory
 * In auth-functions.js, implement the newUser function to create a user document in Firestore and send a welcome email if their email exists
     * We have supplied you with helper functions to actually send the email via nodemailer
+    * HINT it will be a lot easier on you if you manually set the user document ID to be the Firebase auth UID for the user.
+* In user-profile.component.ts 
+    * Implement listening to the user document corresponding to the signed in user and making this data available to the component
+    * Implement the ability to save the user 
 * In firestore-functions.js
     * Review update trigger
         1. Implement the checkReviewChanged function to decide whether the useful parts of the review actually changed
@@ -177,8 +187,11 @@ Steps:
         1. Implement deleteBreweryReview to delete the corresponding user review and aggregate the ratings on the brewery document
         3. Implement deleteUserReview to delete the corresponding brewery review as well as the brewery review mapping and aggregate the ratings on the brewery document
             * Deleting the mapping only needs to be done in one of the functions since the mapping exists only in one place, we chose to put it here but it would work fine in the deleteBreweryReview function as well
-        
-
+    * BONUS If you have the time/desire, implement code in the user-profile.component.ts to view, edit and delete the users reviews. This will work very similarly as in the brewery.component.ts file
+* In http-functions.js
+    * Implement an express post endpoint that adds one to the views field on the posted brewery Id 
+    * Update the brewery.component.ts postView functions to post the brewery Id to your function endpoint 
+        * HINT: the root endpoint is part of the `firebase deploy --only functions` output.
 
 # Storage & Cloud Vision
 
@@ -193,5 +206,12 @@ References:
 * https://codelabs.developers.google.com/codelabs/firebase-cloud-functions-angular/index.html?index=..%2F..%2Findex#0
 
 Steps:
-* In progress
-
+* In user-profile.component.ts
+    * We have provided you with the necessary code to select a file
+    * When saving the user, if a file has been selected, upload that file to the users/ bucket with Firebase Storage. Listen to changes in upload state and When the upload is complete add the file path to the user and finish saving the user as done previously
+    * Implement a function that gets the download URL of the storage object based off the path stored on the user
+        * We do not directly save the download url only because when making changes to the file and reuploading it (e.g. with the our function coming up next) the download url changes
+* In storage.functions.js
+    * If you want to continue with this portion, you will need to upgrade your firebase project to the blaze plan (pay as you) you will have free usage up to the limits and will be charged (very small amounts) after that. Do not worry though, for this workshop we will not be doing enough to warrant being charged and you can downgrade at any time
+    * Implement a function that fires when a storage object has been finalized that uses the cloud vision api to detect whether or not the image has adult or violent content. If the image does, use ImageMagick to blur it, re upload it, and lock the user that uploaded the image
+    * Implement Storage and Firestore rules that do not allow locked users to manipulate any data
