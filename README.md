@@ -215,5 +215,3 @@ Steps:
     * If you want to continue with this portion, you will need to upgrade your firebase project to the blaze plan (pay as you) you will have free usage up to the limits and will be charged (very small amounts) after that. Do not worry though, for this workshop we will not be doing enough to warrant being charged and you can downgrade at any time
     * Implement a function that fires when a storage object has been finalized that uses the cloud vision api to detect whether or not the image has adult or violent content. If the image does, use ImageMagick to blur it, re upload it, and lock the user that uploaded the image
     * Implement Storage and Firestore rules that do not allow locked users to manipulate any data
-    
-
