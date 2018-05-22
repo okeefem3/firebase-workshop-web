@@ -82,7 +82,7 @@ Goals:
 * Set up ability for user to read, add, update and delete breweries
 * Set up ability for user to read, add, update and delete reviews as a collection owned by a brewery  document
 * Set up basic Firestore security rules
-* BONUS TODO set up relationship between user and brewery to prevent multiple reviews (adding, checking for showing add button, and add the rule)
+* Set up relationship between user and brewery part 1
 
 References
 * https://firebase.google.com/docs/firestore/
@@ -97,8 +97,10 @@ Steps:
 * In brewery.component.ts get the reference to Firestore, and the brewery document associated with ID in the route params
 * Listen to changes in the brewery document and make the brewery available to the component
 * Get the reviews collection from the brewery document, listen to changes and make it available to the component
-* Implement adding, saving and deleting a review
 * Implement getting the user id from the current logged in user
+* Implement adding, saving and deleting a review
+  * When adding a review, add a document to the breweryMapping collection with a custom id of breweryId_uid 
+* Set up auth based rules and rule that keeps users from reviewing a brewery more than once
 
 # Hosting
 
