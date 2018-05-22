@@ -192,3 +192,6 @@ References:
 * https://firebase.google.com/docs/storage/web/start
 * https://codelabs.developers.google.com/codelabs/firebase-cloud-functions-angular/index.html?index=..%2F..%2Findex#0
 
+Steps:
+* In progress
+
