@@ -3,7 +3,8 @@ Starter code for the firebase workshop!
 Stackblitz link
 https://stackblitz.com/github/okeefem3/firebase-workshop-web/tree/connect-to-firebase
 
-# Development environment set up
+# Development environment set up 
+## Please do before coming to the workshop
 * Download Node, we recommend the LTS version 
     * https://nodejs.org/en/
 * Open a terminal window and verify that you have npm installed with `npm -v`
@@ -19,8 +20,10 @@ https://stackblitz.com/github/okeefem3/firebase-workshop-web/tree/connect-to-fir
     * https://code.visualstudio.com/
     * https://www.jetbrains.com/webstorm/
     * Other editors like Sublime and Atom also work well
+* Run `npm install` from the root app directory to install app dependencies
+* run `npm install` from the /functions directory to install cloud functions dependencies
 * Once you have the project set up, from the root directory you can run `ng serve` and point your browser to http://localhost:4200/ 
-* The recomended browsers to use would be Google Chrome or Mozilla Firefox
+* The recomended browsers to use for development would be Google Chrome or Mozilla Firefox
     * https://www.google.com/chrome/
     * https://www.mozilla.org/en-US/
 
@@ -152,6 +155,31 @@ Goals:
 * When a brewery is viewed send an http request to update the number of views on the brewery
 * BONUS/TODO Cron jobs
 
+References:
+* https://firebase.google.com/docs/functions/
+* https://github.com/firebase/functions-samples
+* https://nodemailer.com/about/
+* https://angularfirebase.com/lessons/firestore-cloud-functions-data-aggregation/
+
+Steps:
+* If you have not already run `npm install` from the /functions directory
+* In auth-functions.js, implement the newUser function to create a user document in Firestore and send a welcome email if their email exists
+    * We have supplied you with helper functions to actually send the email via nodemailer
+* In firestore-functions.js
+    * Review update trigger
+        1. Implement the checkReviewChanged function to decide whether the useful parts of the review actually changed
+            * Yes you could use a 3rd party library like lodash for this if you want, but for this simple example we will implement it ourselves!
+        2. Implement the updateBreweryReview function to sync the data to the reviews collection under the user that created it if the review changed during the update
+        3. Implement the aggregateRatings function to update the average rating field on the reviews parent brewery document
+        4. Call aggregateRatings from updateBreweryReview only if the rating changed during the review update
+        5. Implement the updateUserReview function, it will be the same as updateBreweryReview, but will syncing the update with the brewery review.
+    * Review delete trigger
+        1. Implement deleteBreweryReview to delete the corresponding user review and aggregate the ratings on the brewery document
+        3. Implement deleteUserReview to delete the corresponding brewery review as well as the brewery review mapping and aggregate the ratings on the brewery document
+            * Deleting the mapping only needs to be done in one of the functions since the mapping exists only in one place, we chose to put it here but it would work fine in the deleteBreweryReview function as well
+        
+
+
 # Storage & Cloud Vision
 
 Goals:
@@ -159,5 +187,8 @@ Goals:
 * Build a function that will moderate the profile image using the Cloud Vision API
 * Update firestore and storage rules to block a locked user from doing any add/update/delete actions
 
-
+References:
+* https://cloud.google.com/vision/
+* https://firebase.google.com/docs/storage/web/start
+* https://codelabs.developers.google.com/codelabs/firebase-cloud-functions-angular/index.html?index=..%2F..%2Findex#0
 
