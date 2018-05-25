@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from '../material/material.module';
 import { HeaderComponent } from './header/header.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   imports: [
@@ -15,11 +14,13 @@ import { BrowserModule } from '@angular/platform-browser';
   ],
   declarations: [
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   exports: [
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ]
 })
 export class CoreModule { }

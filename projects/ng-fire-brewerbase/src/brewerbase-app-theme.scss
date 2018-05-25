@@ -9,7 +9,7 @@ $brewerbase-blue: (
   contrast: (
     100: $black-87-opacity,
     500: $black-87-opacity,
-    900: $black-87-opacity,   
+    900: $black-87-opacity,
   )
 );
 
@@ -20,17 +20,17 @@ $brewerbase-yellow: (
   contrast: (
     100: $black-87-opacity,
     500: $black-87-opacity,
-    900: $black-87-opacity,   
+    900: $black-87-opacity,
   )
 );
 
-$brewerbase-theme-accent: mat-palette($brewerbase-blue);
-$brewerbase-theme-primary: mat-palette($brewerbase-yellow);
-$brewerbase-theme-warn: mat-palette($mat-red);
+//$brewerbase-theme-accent: mat-palette($brewerbase-blue);
+//$brewerbase-theme-primary: mat-palette($brewerbase-yellow);
+//$brewerbase-theme-warn: mat-palette($mat-red);
 
-// $brewerbase-theme-primary: mat-palette($mat-light-blue);
-// $brewerbase-theme-accent: mat-palette($mat-orange, A200, A100, A400);
-// $brewerbase-theme-warn: mat-palette($mat-red);
+ $brewerbase-theme-primary: mat-palette($mat-amber);
+ $brewerbase-theme-accent: mat-palette($mat-light-blue, A200, A100, A600);
+ $brewerbase-theme-warn: mat-palette($mat-deep-orange);
 
 $brewerbase-theme: mat-light-theme($brewerbase-theme-primary, $brewerbase-theme-accent, $brewerbase-theme-warn);
 @include angular-material-theme($brewerbase-theme);

@@ -1,8 +1,8 @@
-<mat-toolbar color="primary" fxLayout="row">
-  <span fxFlex="6">
+<mat-toolbar class="brewerbase-header" fxLayout="row" fxLayoutAlign="center center" color="primary">
+  <span fxFlex="5">
     <img class="header-logo" src="../../../assets/kla-bcc-small.png" (click)="navigate(['home'])"/>
   </span>
-  <span fxFlex>
+  <span fxFlex fxLayoutAlign="end" fxLayout="row">
     <button mat-button (click)="navigate(['breweries'])">Breweries</button>
     <button mat-button (click)="navigate(['user-profile'])">User Profile</button>
     <button mat-button (click)="signOut()">Sign Out</button>

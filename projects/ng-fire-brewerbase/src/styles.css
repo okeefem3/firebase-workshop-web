@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 
 .header-logo {
     vertical-align: middle;
@@ -7,26 +6,23 @@
 }
 
 body {
-    background-color: black;
+  background-color: black;
+  margin: 0;
+  background-image: url("./assets/firebase-black.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
 }
 
 .mat-card {
     margin: 10px;
 }
 
-.mat-toolbar {
-    position: fixed;
-    /* Make sure the toolbar will stay on top of the content as it scrolls past. */
-    z-index: 2;
+.brewerbase-footer {
+  position:absolute;
+  bottom:0;
 }
 
-.example-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  
+.footer-text {
+  font-size: 1rem;
+}
