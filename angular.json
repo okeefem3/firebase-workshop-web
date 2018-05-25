@@ -138,7 +138,8 @@
               "projects/ng-fire-brewerbase/src/assets"
             ],
             "styles": [
-              "projects/ng-fire-brewerbase/src/styles.css"
+              "projects/ng-fire-brewerbase/src/styles.css",
+              "projects/ng-fire-brewerbase/src/brewerbase-app-theme.scss"
             ],
             "scripts": []
           },

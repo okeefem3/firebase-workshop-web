@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'brewerbase-header',
@@ -8,6 +7,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private router: Router) {}
+
+  navigate(route: string[]) {
+    this.router.navigate(route);
+  }
+
+  signOut() {
+    
+  }
 }

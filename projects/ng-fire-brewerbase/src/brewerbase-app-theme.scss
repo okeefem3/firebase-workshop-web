@@ -1,0 +1,36 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$brewerbase-blue: (
+  100: #94c6ff,
+  500: #6196d0,
+  900: #2a689f,
+  contrast: (
+    100: $black-87-opacity,
+    500: $black-87-opacity,
+    900: $black-87-opacity,   
+  )
+);
+
+$brewerbase-yellow: (
+  100: #ffcd6f,
+  500: #e09c40,
+  900: #aa6e0b,
+  contrast: (
+    100: $black-87-opacity,
+    500: $black-87-opacity,
+    900: $black-87-opacity,   
+  )
+);
+
+$brewerbase-theme-accent: mat-palette($brewerbase-blue);
+$brewerbase-theme-primary: mat-palette($brewerbase-yellow);
+$brewerbase-theme-warn: mat-palette($mat-red);
+
+// $brewerbase-theme-primary: mat-palette($mat-light-blue);
+// $brewerbase-theme-accent: mat-palette($mat-orange, A200, A100, A400);
+// $brewerbase-theme-warn: mat-palette($mat-red);
+
+$brewerbase-theme: mat-light-theme($brewerbase-theme-primary, $brewerbase-theme-accent, $brewerbase-theme-warn);
+@include angular-material-theme($brewerbase-theme);

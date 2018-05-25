@@ -18,7 +18,8 @@ import { BrowserModule } from '@angular/platform-browser';
     HeaderComponent
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent
   ]
 })
 export class CoreModule { }
