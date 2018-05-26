@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgFireAuthService } from '../../../../../ng-fire-auth/src/public_api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'brewerbase-header',
@@ -7,13 +9,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private ngFireAuthService: NgFireAuthService) {}
 
-  navigate(route: string[]) {
+  public navigate(route: string[]) {
     this.router.navigate(route);
   }
 
-  signOut() {
-    
+  public signOut() {
+    this.ngFireAuthService.signOut();
+  }
+
+  public getAuthState(): Observable<any> {
+    return this.ngFireAuthService.getCurrentAuthState();
   }
 }

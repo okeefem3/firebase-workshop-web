@@ -18,16 +18,16 @@
     ],
     "paths": {
       "ng-fire-auth": [
-        "dist/ng-fire-auth"
+        "./projects/ng-fire-auth"
       ],
       "ng-fire-brewery": [
-        "dist/ng-fire-brewery"
+        "./projects/ng-fire-brewery"
       ],
       "ng-fire-review": [
-        "dist/ng-fire-review"
+        "./projects/ng-fire-review"
       ],
       "ng-fire-user": [
-        "dist/ng-fire-user"
+        "./projects/ng-fire-user"
       ]
     }
   }

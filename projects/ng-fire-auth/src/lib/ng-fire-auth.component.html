@@ -1,0 +1,21 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Sign In</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div *ngIf="user; else no_user">
+            Welcome {{ user.displayName }}
+        </div>
+        <ng-template #no_user>
+            <div>
+                Hey there! Please sign in to access BrewerBase
+            </div>
+        </ng-template>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="accent" *ngIf="user; else sign_in" (click)="signOut()">Sign Out</button>
+        <ng-template #sign_in>
+            <button mat-raised-button color="accent" (click)="signInWithGoogle()">Sign In With Google</button>
+        </ng-template>
+    </mat-card-actions>
+</mat-card>

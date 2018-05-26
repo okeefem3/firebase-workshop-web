@@ -7,6 +7,7 @@ import { environment } from '../../../../src/environments/environment';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app.routing.module';
+import { NgFireAuthModule } from '../../../ng-fire-auth/src/public_api';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AppRoutingModule } from './app.routing.module';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     CoreModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
