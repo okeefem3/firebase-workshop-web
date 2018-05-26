@@ -36,7 +36,7 @@ export class NgFireAuthService {
     });
   }
 
-  getCurrentAuthState(): Observable<User> {
+  public getCurrentAuthState(): Observable<User> {
     return this.afAuth.authState;
   }
 }

@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-ng-fire-user',
-  template: `
-    <p>
-      ng-fire-user works!
-    </p>
-  `,
-  styles: []
+  selector: 'ng-fire-user',
+  templateUrl: './ng-fire-user.component.html',
 })
 export class NgFireUserComponent implements OnInit {
 
