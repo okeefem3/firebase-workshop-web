@@ -33,12 +33,12 @@ export class UserProfileComponent implements OnInit {
     /**
      * Get the User document matching the auth uid from Firestore
      */
-    
+
     /**
      * Get user reviews collection reference from Firestore and listen to changes
      * HINT almost exactly the same as on the brewery component, just a differenct base collection
      */
-      
+
   }
 
   /**
@@ -46,14 +46,14 @@ export class UserProfileComponent implements OnInit {
    * If a profileImageFile was uploaded, save that to the Storage reference
    */
   saveUser() {
-    
+
   }
 
   /**
    * Extract the file when one is selected
    */
   onFileSelected(event) {
-    var files = event.srcElement.files;
+    let files = event.srcElement.files;
     this.profileImageFile = files[0];
     this.filePath = this.profileImageFile.name
   }
@@ -70,7 +70,7 @@ export class UserProfileComponent implements OnInit {
    * Get the user profile image url from the path saved on the user document
    */
   getUserProfileImageUrl() {
-    
+
   }
 
   /**
@@ -78,12 +78,12 @@ export class UserProfileComponent implements OnInit {
    * @param review
    */
   saveReview(review) {
-    
+
   }
 
   /**
    * Delete the given review from the user reviews collection
-   * @param id 
+   * @param id
    */
   deleteReview(id) {
 
