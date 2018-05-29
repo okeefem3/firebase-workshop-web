@@ -4,6 +4,8 @@ Finished code for the firebase workshop by Kunz Leigh & Associates!
 
 Stackblitz link
 https://stackblitz.com/github/okeefem3/firebase-workshop-web
+Please note the app will not work fully unless you connect it to your own firebase project
+Adding your firebase web config keys to src/config/firebase.config.ts to see it in action :)
 
 # Development environment set up 
 ## Please do before coming to the workshop
@@ -18,12 +20,12 @@ https://stackblitz.com/github/okeefem3/firebase-workshop-web
     * git https://git-scm.com/ 
     * Gitkraken is an easy to use free dekstop client https://www.gitkraken.com/ 
 * Clone our repository and checkout the connect-to-firebase branch for the starter code
-* You will want a goode code editor, we recommend Visual Studio Code (free) or Webstorm (paid, has free trial)
+* You will want a good code editor, we recommend Visual Studio Code (free) or Webstorm (paid, has free trial)
     * https://code.visualstudio.com/
     * https://www.jetbrains.com/webstorm/
     * Other editors like Sublime and Atom also work well
 * Run `npm install` from the root app directory to install app dependencies
-* run `npm install` from the /functions directory to install cloud functions dependencies
+* Run `npm install` from the /functions directory to install cloud functions dependencies
 * Once you have the project set up, from the root directory you can run `ng serve` and point your browser to http://localhost:4200/ 
 * The recomended browsers to use for development would be Google Chrome or Mozilla Firefox
     * https://www.google.com/chrome/
@@ -34,7 +36,7 @@ https://stackblitz.com/github/okeefem3/firebase-workshop-web
 Goals:
 * Set up a Firebase project 
 * Add Firebase project web app configuration to our app
-* Initialize our app as a Firebase app using the JS SDK
+* Initialize our app as a Firebase app using the Javascript SDK
 * Install Firebase CLI tools and log in
 
 References:
@@ -43,23 +45,22 @@ References:
 * https://firebase.google.com/docs/cli/
 
 Steps:
-* Initialize a firebase project https://console.firebase.google.com/
-* Copy and paste the Firebase web config key/value pairs into the object defined in ./src/config/firebase.config.ts
-* Initialize the firebase app in the app.module.ts file
+* Initialize a Firebase project https://console.firebase.google.com/
+* Copy and paste the Firebase web config keys into the object defined in src/config/firebase.config.ts
+* Initialize the Firebase app in the app.module.ts file
 * Setup Firebase CLI if you have not already (We will use this later to deploy to hosting and cloud functions)
     1. Install Node LTS https://nodejs.org/en/
     2. Open a terminal on your machine and run `npm install -g firebase-tools`
-    3. run `firebase login` and login with the SAME account that you used to create your Firebase project
-        * GOTCHA, if you have multiple google accounts be sure that you use the same one as you used to create your Firebase project
-
+    3. Run `firebase login` and login with the SAME account that you used to create your Firebase project
+    
 # Authentication
 
 Goals:
 * Set up ability for users to sign up and sign in anonymously, using email/password or Google
 * Set up ability for users to convert an anonymous account to email/password or Google
-* Set up basic monitoring of auth state as well as ability to sign out
-* Show how to set auth language
-* Show how to use the built in password reset and verification functionality
+* Set up monitoring of authentication state and ability to sign out
+* Set auth language
+* Learn how to use the built in password reset and verification functionality
 
 References:
 * https://firebase.google.com/docs/auth/web/start
@@ -68,12 +69,15 @@ Steps:
 * Go to your Firebase project console https://console.firebase.google.com/
     1. Select Authentication from the menu
     2. Select the SIGN-IN METHOD tab
-    3. Enable Email/Password (if needed) Google and Anonymous
-* In the the auth.component.ts file implement sign up/in code for these three methods
-* Implement the code to convert an anonymous user to Email/Password and Google
-* Implement code to get the current user from Firebase auth, and to sign out
-* Implement code in the app.component.ts to set the auth language and listen to auth state changes
-    * You will also want to implement code in home.component.ts to listen to auth state changes, and to sign out
+    3. Enable Email/Password, Google and Anonymous
+* In src/app/auth/auth.component.ts file 
+  * Implement sign up/in code for the three methods you enabled
+  * Implement code to convert an anonymous user to Email/Password and Google
+  * Implement code to get the current user from Firebase auth, and to sign out
+* In src/app/app.component.ts
+  * Implement code to set the auth language and listen to auth state changes
+* In src/app/home/home.component.ts     
+  * Implement code to listen to auth state changes and sign out
 * BONUS, if you have the time explore some of the bonus functionality we have drafted up in auth.component.ts, or check out the docs for something different
 
 Wasn't that a lot easier than implementing auth from scratch?
@@ -82,7 +86,7 @@ Wasn't that a lot easier than implementing auth from scratch?
 
 Goals:
 * Set up ability for user to read, add, update and delete breweries
-* Set up ability for user to read, add, update and delete reviews as a collection owned by a brewery  document
+* Set up ability for user to read, add, update and delete reviews as a sub collection owned by a brewery  document
 * Set up basic Firestore security rules
 * Set up relationship between user and brewery part 1
 
@@ -92,17 +96,23 @@ References
 * https://angularfirebase.com/lessons/advanced-firestore-nosql-data-structure-examples/
 
 Steps:
-* In brewery-list.component.ts get the reference to Firestore and breweries collection
-* Listen to changes in the breweries collection and make the collection accessible to the component 
-* Implement the ability to add and delete breweries from the collection
-* Implement getting the user id from the current logged in user
-* In brewery.component.ts get the reference to Firestore, and the brewery document associated with ID in the route params
-* Listen to changes in the brewery document and make the brewery available to the component
-* Get the reviews collection from the brewery document, listen to changes and make it available to the component
-* Implement getting the user id from the current logged in user
-* Implement adding, saving and deleting a review
-  * When adding a review, add a document to the breweryMapping collection with a custom id of breweryId_uid 
-* Set up auth based rules and rule that keeps users from reviewing a brewery more than once
+* In src/app/list/brewery-list.component.ts 
+  * Get references to Firestore and breweries collection
+  * Listen to changes in the breweries collection and make the collection accessible to the component 
+  * Implement getting the user id from the current logged in user
+  * Implement the ability to add and delete breweries from the collection
+    * See src/app/models/brewery.model.ts for hints on what information we are expecting to save
+* In src/app/brewery/brewery.component.ts 
+  * Get references to Firestore and the brewery document associated with the ID in the route params
+  * Listen to changes in the brewery document and make the brewery available to the component
+  * Get the reviews collection from the brewery document, listen to changes and make it available to the component
+  * Implement getting the user id from the current logged in user
+  * Implement adding, saving and deleting a review
+    * When adding a review, also add a document to the reviewMapping collection with a custom id of breweryId_uid
+    * See src/app/models/review.model.ts and src/app/models/review-mapping.model.ts for hints on what information we are expecting to save
+* In /firestore.rules
+  * Set up auth based rules
+  * Set up a rule that keeps users from reviewing a brewery more than once by checking if a review mapping exists
 
 # Hosting
 

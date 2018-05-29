@@ -1,6 +1,6 @@
 /**
- * Put firebase app configuration here
+ * Put Firebase app configuration here
  */
 export const firebaseConfigDev = {
-    
+
 };
