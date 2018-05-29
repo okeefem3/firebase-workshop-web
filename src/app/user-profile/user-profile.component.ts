@@ -96,7 +96,7 @@ export class UserProfileComponent implements OnInit {
    * Extract the file when one is selected
    */
   onFileSelected(event) {
-    var files = event.srcElement.files;
+    let files = event.srcElement.files;
     this.profileImageFile = files[0];
     this.filePath = this.profileImageFile.name
   }
@@ -131,7 +131,7 @@ export class UserProfileComponent implements OnInit {
 
   /**
    * Delete the given review from the user reviews collection
-   * @param id 
+   * @param id
    */
   deleteReview(id) {
     this.userRef.collection('reviews').doc(id).delete();
