@@ -132,30 +132,30 @@ Steps:
         4. Storage
     * Hit enter to continue
     * Firestore Rules? 
-        * use the default (just hit enter)
+        * Use the default (just hit enter)
     * Firestore Indexes? 
-        * use the default (just hit enter)
+        * Use the default (just hit enter)
     * Language for Cloud Functions?
         * Select Javascript and hit enter
     * ESLint
-        * type Y and hit enter
+        * Type `Y` and hit enter
     * Overwrite functions/package.json? 
-        * type N and hit enter
-        * GOTCHA if you say yes here your functions will have a hard time finding our third part dependencies and won't work
+        * Type `N` and hit enter
+          * GOTCHA if you say yes here your functions will have a hard time finding the third party dependencies we have defined and won't work :(
     * Overwrite functions/.eslintrc.json?
-        * type N and hit enter
+        * Type `N` and hit enter
     * Overwrite functions/index.js?
-        * type N and hit enter
+        * Type `N` and hit enter
         * GOTCHA if you say yes here, you will not have the starter code for functions!
     * Install dependencies with npm now? 
-        * type Y and hit enter
+        * Type `Y` and hit enter
     * What do you want to use as your public directory?
-        * type dist and hit enter
-        * GOTCHA if you build and deploy your app but nothing shows up when you navigate to your hosting URL, it may be because you did not point to the dist directory in this step
+        * Type `dist` and hit enter
+          * GOTCHA if you build and deploy your app but nothing shows up when you navigate to your hosting URL, it may be because you did not point to the dist directory in this step
     * Configure as a single page app?
-        * type y and hit enter
+        * Type `y` and hit enter
     * What file should be used for Storage Rules?
-        * use the default (just hit enter)
+        * Tse the default (just hit enter)
 * Run `ng build` to build your app
 * Run  `firebase deploy --only hosting` 
     * Follow the link that the CLI tools spit out to reach your now publicly hosted app
@@ -164,8 +164,9 @@ Steps:
 
 Goals:
 * When a new user is created through auth, add a user to Firestore
+  * Set up the user profile page in the app (Needed for the Storage section)
 * When a review is updated or deleted, sync the data with a collection of reviews under the user who created it and update the average rating on the brewery
-    * This will also include adding to the app the ability to read, delete and update reviews from a user profile screen
+    * This will also include adding to the app the ability to read, delete and update reviews from a user profile screen (Optional)
 * When a brewery is viewed send an http request to update the number of views on the brewery
 * BONUS/TODO Cron jobs
 
@@ -176,16 +177,17 @@ References:
 * https://angularfirebase.com/lessons/firestore-cloud-functions-data-aggregation/
 
 Steps:
-* For each step, run `firebase deploy --only functions` this will run ESLint before deploying and will fail if there are any errors. If the deploy succeeds, the functions will be immediately available
+* For each step you can run `firebase deploy --only functions` this will run ESLint before deploying and will fail if there are any errors. If the deploy succeeds, the functions will be immediately available
     * You can go to the Functions > logs section of your Firebase project console to help debug your functions
-* If you have not already run `npm install` from the /functions directory
-* In auth-functions.js, implement the newUser function to create a user document in Firestore and send a welcome email if their email exists
+* If you have not already, run `npm install` from the /functions directory
+* In functions/auth-functions.js, 
+  * Implement the newUser function to create a user document in Firestore and send a welcome email if their email exists
     * We have supplied you with helper functions to actually send the email via nodemailer
     * HINT it will be a lot easier on you if you manually set the user document ID to be the Firebase auth UID for the user.
-* In user-profile.component.ts 
-    * Implement listening to the user document corresponding to the signed in user and making this data available to the component
+* In src/app/user-profile/user-profile.component.ts
+    * Implement listening to the user document corresponding to the signed in user and make this data available to the component
     * Implement the ability to save the user 
-* In firestore-functions.js
+* In functions/firestore-functions.js
     * Review update trigger
         1. Implement the checkReviewChanged function to decide whether the useful parts of the review actually changed
             * Yes you could use a 3rd party library like lodash for this if you want, but for this simple example we will implement it ourselves!
@@ -198,7 +200,7 @@ Steps:
         3. Implement deleteUserReview to delete the corresponding brewery review as well as the brewery review mapping and aggregate the ratings on the brewery document
             * Deleting the mapping only needs to be done in one of the functions since the mapping exists only in one place, we chose to put it here but it would work fine in the deleteBreweryReview function as well
     * BONUS If you have the time/desire, implement code in the user-profile.component.ts to view, edit and delete the users reviews. This will work very similarly as in the brewery.component.ts file
-* In http-functions.js
+* In functions/http-functions.js
     * Implement an express post endpoint that adds one to the views field on the posted brewery Id 
     * Update the brewery.component.ts postView functions to post the brewery Id to your function endpoint 
         * HINT: the root endpoint is part of the `firebase deploy --only functions` output.
@@ -206,9 +208,10 @@ Steps:
 # Storage & Cloud Vision
 
 Goals:
-* Build the ability for a user to upload a profile image
-* Build a function that will moderate the profile image using the Cloud Vision API
-* Update firestore and storage rules to block a locked user from doing any add/update/delete actions
+* Set up the ability for a user to upload a profile image
+* BONUS Set up a cloud function that will moderate the profile image using the Cloud Vision API
+  * If the image is moderated, set the locked field on the User document to true
+  * Update firestore and storage rules to block a locked user from doing any add/update/delete actions
 
 References:
 * https://cloud.google.com/vision/
@@ -216,12 +219,12 @@ References:
 * https://codelabs.developers.google.com/codelabs/firebase-cloud-functions-angular/index.html?index=..%2F..%2Findex#0
 
 Steps:
-* In user-profile.component.ts
+* In src/app/user-profile/user-profile.component.ts
     * We have provided you with the necessary code to select a file
     * When saving the user, if a file has been selected, upload that file to the users/ bucket with Firebase Storage. Listen to changes in upload state and When the upload is complete add the file path to the user and finish saving the user as done previously
     * Implement a function that gets the download URL of the storage object based off the path stored on the user
         * We do not directly save the download url only because when making changes to the file and reuploading it (e.g. with the our function coming up next) the download url changes
-* In storage.functions.js
+* BONUS In functions/storage.functions.js
     * If you want to continue with this portion, you will need to upgrade your firebase project to the blaze plan (pay as you) you will have free usage up to the limits and will be charged (very small amounts) after that. Do not worry though, for this workshop we will not be doing enough to warrant being charged and you can downgrade at any time
     * Implement a function that fires when a storage object has been finalized that uses the cloud vision api to detect whether or not the image has adult or violent content. If the image does, use ImageMagick to blur it, re upload it, and lock the user that uploaded the image
     * Implement Storage and Firestore rules that do not allow locked users to manipulate any data
