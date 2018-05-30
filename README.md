@@ -72,7 +72,7 @@ Steps:
     3. Enable Email/Password, Google and Anonymous
 * In src/app/auth/auth.component.ts file 
   * Implement sign up/in code for the three methods you enabled
-  * Implement code to convert an anonymous user to Email/Password and Google
+  * Implement code to convert an anonymous user to Email/Password
   * Implement code to get the current user from Firebase auth, and to sign out
 * In src/app/app.component.ts
   * Implement code to set the auth language and listen to auth state changes

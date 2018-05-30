@@ -69,7 +69,7 @@ export class AuthComponent {
   }
 
   /**
-   * Generic helper function, pass it a Firebase auth provider and 
+   * Generic helper function, pass it a Firebase auth provider and
    * handle signing in with a popup.
    * @param provider to sign in with
    */
@@ -104,14 +104,6 @@ export class AuthComponent {
   }
 
   /**
-   * Convert the anonymous user data to a google account
-   */
-  convertAnonymousToGoogle() {
-    const credential = firebase.auth.GoogleAuthProvider.credential();
-    this.linkAccountWithCredential(credential);
-  }
-
-  /**
    * Convert the anonymous user data to an email/password account
    */
   convertAnonymousToEmailAndPassword() {
@@ -120,8 +112,21 @@ export class AuthComponent {
   }
 
   /**
+   * Generic helper function to link the current user with the given auth credentials
+   * Use to convert an anonymours user to a different auth type
+   * @param credential
+   */
+  private linkAccountWithCredential(credential) {
+    firebase.auth().currentUser.linkWithCredential(credential).then((user) => {
+      this.signInSuccessful(user);
+    }, (error) => {
+      console.log("Error upgrading anonymous account", error);
+    });
+  }
+
+  /**
    * Helper function to show that the user was signed in successfully
-   * @param user 
+   * @param user
    */
   signInSuccessful(user) {
     alert('Successfully signed in as ' + user.displayName);
@@ -142,8 +147,8 @@ export class AuthComponent {
   }
 
   /**
-   * BONUS 
-   * Complete these on your own if you like, consult the docs or 
+   * BONUS
+   * Complete these on your own if you like, consult the docs or
    * our finished code for help.
    */
 
@@ -160,16 +165,11 @@ export class AuthComponent {
   }
 
   /**
-   * Generic helper function to link the current user with the given auth credentials
-   * Use to convert an anonymours user to a different auth type
-   * @param credential 
+   * Convert the anonymous user data to a google account
    */
-  private linkAccountWithCredential(credential) {
-    firebase.auth().currentUser.linkWithCredential(credential).then((user) => {
-      this.signInSuccessful(user);
-    }, (error) => {
-      console.log("Error upgrading anonymous account", error);
-    });
+  convertAnonymousToGoogle() {
+    const credential = firebase.auth.GoogleAuthProvider.credential();
+    this.linkAccountWithCredential(credential);
   }
 
   /**
@@ -179,8 +179,8 @@ export class AuthComponent {
     const provider = this.createGoogleAuthProvider();
     firebase.auth().currentUser.linkWithPopup(provider).then(function(result) {
       // Accounts successfully linked.
-      var credential = result.credential;
-      var user = result.user;
+      const credential = result.credential;
+      const user = result.user;
       console.log("Account linking to Google success", user);
     }).catch((error) => {
       console.log("Account linking to Google error", error);
