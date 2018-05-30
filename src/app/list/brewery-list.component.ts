@@ -34,7 +34,6 @@ export class BreweryListComponent implements OnInit {
     this.db.collection('breweries').add({
       name: 'New Brewery',
       description: 'This is a new Brewery',
-      active: true,
       createdOn: firebase.firestore.FieldValue.serverTimestamp(),
       uid: this.getCurrentUid()
     });

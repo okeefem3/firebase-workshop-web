@@ -99,6 +99,7 @@ Steps:
 * In src/app/list/brewery-list.component.ts 
   * Get references to Firestore and breweries collection
   * Listen to changes in the breweries collection and make the collection accessible to the component 
+    * Order the collection by the name field
   * Implement getting the user id from the current logged in user
   * Implement the ability to add and delete breweries from the collection
     * See src/app/models/brewery.model.ts for hints on what information we are expecting to save
