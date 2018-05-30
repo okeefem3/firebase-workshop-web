@@ -55,7 +55,7 @@ export class UserProfileComponent implements OnInit {
   onFileSelected(event) {
     let files = event.srcElement.files;
     this.profileImageFile = files[0];
-    this.filePath = this.profileImageFile.name
+    this.filePath = this.profileImageFile.name;
   }
 
   /**
