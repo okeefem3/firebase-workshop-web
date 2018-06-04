@@ -10,10 +10,10 @@
           <span class="card-title">Welcome {{ getCurrentUser().displayName }}!</span>
         </div>
         <div class="row">
-          <input id="email" type="email" class="validate" [ngModel]="email" placeholder="Email">
+          <input id="email" type="email" class="validate" [(ngModel)]="email" placeholder="Email">
         </div>
         <div class="row">
-          <input id="password" type="password" class="validate" [ngModel]="password" placeholder="Password">
+          <input id="password" type="password" class="validate" [(ngModel)]="password" placeholder="Password">
         </div>
       </div>
       <div class="card-action">

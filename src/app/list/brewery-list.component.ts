@@ -38,4 +38,16 @@ export class BreweryListComponent implements OnInit {
   getCurrentUid() {
     
   }
+  
+  /**
+   * Helper function to create a new brewery object
+   */
+  createNewBrewery() {
+    return {
+      name: 'New Brewery',
+      description: 'This is a new Brewery',
+      createdOn: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: this.getCurrentUid()
+    }
+  }
 }
