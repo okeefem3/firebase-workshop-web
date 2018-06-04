@@ -43,9 +43,7 @@ export class BreweryComponent implements OnInit {
        * Get brewery reviews collection reference from Firestore and listen to changes
        */
       this.reviewsRef = this.breweryRef.collection('reviews');
-      this.reviewsRef.onSnapshot({
-        includeQueryMetadataChanges: true
-      }, (snapShot) => {
+      this.reviewsRef.onSnapshot((snapShot) => {
         this.reviews = snapShot.docs.map((d) => {
           const data = d.data();
           const id = d.id;
@@ -59,11 +57,7 @@ export class BreweryComponent implements OnInit {
    * Add a review to the reviews collection and a corresponding review mapping
    */
   addReview() {
-    this.reviewsRef.add({
-      uid: this.getCurrentUid(),
-      createdOn: firebase.firestore.FieldValue.serverTimestamp(),
-      rating: 0
-    }).then((review) => {
+    this.reviewsRef.add().then((review) => {
       this.db.collection('reviewMapping').doc(`${this.brewery.id}_${this.getCurrentUid()}`).set({ reviewId: review.id });
     }).catch((e) => {
       alert('You already added a review for this brewery!')
@@ -103,5 +97,16 @@ export class BreweryComponent implements OnInit {
    */
   getCurrentUid() {
     return firebase.auth().currentUser.uid;
+  }
+
+  /**
+   * Helper function to create a new review object
+   */
+  createNewReview() {
+    return {
+      uid: this.getCurrentUid(),
+      createdOn: firebase.firestore.FieldValue.serverTimestamp(),
+      rating: 0
+    }
   }
 }

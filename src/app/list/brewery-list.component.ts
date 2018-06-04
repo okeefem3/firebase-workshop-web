@@ -16,9 +16,7 @@ export class BreweryListComponent implements OnInit {
     this.db = firebase.firestore();
     // Get breweries collection reference from Firestore, querying to sort by name and listen to changes
     this.breweryListQueryRef = this.db.collection('breweries').orderBy('name');
-    this.breweryListQueryRef.onSnapshot({
-      includeQueryMetadataChanges: true
-    }, (snapShot) => {
+    this.breweryListQueryRef.onSnapshot((snapShot) => {
       this.breweryList = snapShot.docs.map((d) => {
         const data = d.data();
         const id = d.id;
@@ -31,12 +29,9 @@ export class BreweryListComponent implements OnInit {
    * Add a new brewery to Firestore to breweries collection
    */
   addBrewery() {
-    this.db.collection('breweries').add({
-      name: 'New Brewery',
-      description: 'This is a new Brewery',
-      createdOn: firebase.firestore.FieldValue.serverTimestamp(),
-      uid: this.getCurrentUid()
-    });
+    this.db.collection('breweries').add(
+      this.createNewBrewery()
+    );
   }
 
   /**
@@ -52,5 +47,17 @@ export class BreweryListComponent implements OnInit {
    */
   getCurrentUid() {
     return firebase.auth().currentUser.uid;
+  }
+
+  /**
+   * Helper function to create a new brewery object
+   */
+  createNewBrewery() {
+    return {
+      name: 'New Brewery',
+      description: 'This is a new Brewery',
+      createdOn: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: this.getCurrentUid()
+    }
   }
 }
