@@ -79,4 +79,15 @@ export class BreweryComponent implements OnInit {
   getCurrentUid() {
     
   }
+
+  /**
+   * Helper function to create a new review object
+   */
+  createNewReview() {
+    return {
+      uid: this.getCurrentUid(),
+      createdOn: firebase.firestore.FieldValue.serverTimestamp(),
+      rating: 0
+    }
+  }
 }
