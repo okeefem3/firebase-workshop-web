@@ -14,10 +14,9 @@ module.exports.updateBreweryReview = function(change, context) {
     const reviewId = context.params.reviewId;
     const previousValue = change.before.data();
     const newValue = change.after.data();
-
-    // Sync changes with user review collection.
-    const docRef = admin.firestore().collection('users').doc(newValue.uid);
-    updateReview(docRef, newValue, previousValue, reviewId);
+    // Get the user document needed first
+    const userDocRef = admin.firestore().collection('users').doc(newValue.uid);
+    return updateReview(userDocRef, newValue, previousValue, reviewId);
 }
 
 /**
@@ -41,12 +40,12 @@ module.exports.updateUserReview = function(change, context) {
 
 /**
  * Deletes the corresponding review on the users collection and updates the average rating on the brewery
- * @param {*} snashot 
+ * @param {*} snapshot 
  * @param {*} context 
  */
-module.exports.deleteBreweryReview = function(snashot, context) {
+module.exports.deleteBreweryReview = function(reviewSnapshot, context) {
     const reviewId = context.params.reviewId;
-    const deletedReview = snashot.data();
+    const deletedReview = reviewSnapshot.data();
     const docRef = admin.firestore().collection('users').doc(deletedReview.uid);
     docRef.collection('reviews').doc(reviewId).delete();
     return aggregateRatings(deletedReview.breweryId);
@@ -62,11 +61,19 @@ module.exports.deleteBreweryReview = function(snashot, context) {
 module.exports.deleteUserReview = function(snashot, context) {
     const reviewId = context.params.reviewId;
     const deletedReview = snashot.data();
-    const docRef = admin.firestore().collection('breweries').doc(deletedReview.breweryId);
-    docRef.collection('reviews').doc(reviewId).delete();
-    // Delete the Brewery/User review mapping
-    admin.firestore().collection('reviewMapping').doc(`${deletedReview.breweryId}_${deletedReview.uid}`).delete();
-    return aggregateRatings(deletedReview.breweryId);
+    const breweryDocRef = admin.firestore().collection('breweries').doc(deletedReview.breweryId);
+    return admin.firestore().runTransaction((transaction) => {
+        breweryDocRef.collection('reviews').doc(reviewId).delete();
+        // Delete the Brewery/User review mapping
+        admin.firestore().collection('reviewMapping').doc(`${deletedReview.breweryId}_${deletedReview.uid}`).delete();
+        return aggregateRatings(deletedReview.breweryId);
+    }).then(result => {
+        console.log('Delete review transaction success', result);
+    }).catch(err => {
+        console.log('Delete review transaction  failure', err);
+    });
+ }
+    
 }
 
 /**
@@ -99,19 +106,15 @@ module.exports.userProfileImageChange = function(change, context) {
  * Aggregates review data for breweries
  */
 function aggregateRatings(breweryId) {
-    const docRef = admin.firestore().collection('breweries').doc(breweryId);
-
-    return docRef.collection('reviews').get().then(querySnapshot => {
-        const numberReviews = querySnapshot.size;
-        const totalRating = querySnapshot.docs.map(doc => doc.data().rating)
-                                                .reduce((rating, total) => rating + total, 0);
-                                                console.log(totalRating);
-
-        const averageRating = (totalRating / numberReviews).toFixed(2);
-        console.log(averageRating);
-
-        return docRef.update({ averageRating:  averageRating, numberReviews: numberReviews });
-    }).catch(e => {
+    const breweryDocRef = admin.firestore.collection('breweries').doc(breweryId);
+    return breweryDocRef.collection('reviews').get().then(reviewsSnapshot => {
+        const reviews = reviewsSnapshot.docs;
+        const averageRating = calculateAverageRating(reviews);
+        return breweryDocRef.update({ averageRating:  averageRating, numberReviews: reviews.size });
+    }).then(r => {
+        console.log('Ratings aggregated!');
+    })
+    .catch(e => {
         console.log(`Error fetching brewery ratings for ID ${breweryId}`);
         console.log(e);
     });
@@ -126,14 +129,22 @@ function aggregateRatings(breweryId) {
   * @param {*} reviewId 
   */
  function updateReview(docRefToUpdate, newValue, previousValue, reviewId) {
-    if (checkReviewChanged(newValue, previousValue)) {
-        docRefToUpdate.collection('reviews').doc(reviewId).set(newValue);
-    } else return null;
-
-    // Only update the average if there is a difference
-    if (newValue && previousValue && newValue.rating === previousValue.rating) return null;
-    return aggregateRatings(newValue.breweryId);
+      // Sync changes with user review collection.
+    return admin.firestore().runTransaction((transaction) => {
+        if (checkReviewChanged(newValue, previousValue)) {
+            docRefToUpdate.collection('reviews').doc(reviewId).set(newValue);
+        } else return null;
+        // Only update the average if there is a difference
+        if (newValue && previousValue && newValue.rating === previousValue.rating) return null;
+        return aggregateRatings(newValue.breweryId);
+    }).then(result => {
+        console.log('Update brewery review transaction success', result);
+    }).catch(err => {
+        console.log('Update brewery review transaction  failure', err);
+    });
  }
+
+ 
 
  /**
   * Helper function to determine if there was a meaningful change between the given reviews
@@ -144,4 +155,15 @@ function aggregateRatings(breweryId) {
      return newValue.rating !== previousValue.rating || 
             newValue.text !== previousValue.text || 
             newValue.title !== previousValue.title;
+ }
+
+ /**
+  * Helper function to calculate the average rating from a list of reviews
+  * @param {*} reviews 
+  */
+ function calculateAverageRating(reviews) {
+    const numberReviews = reviewsSnapshot.size;
+    const totalRating = reviewsSnapshot.docs.map(doc => doc.data().rating)
+                                            .reduce((rating, total) => rating + total, 0);
+    return (totalRating / numberReviews).toFixed(2);
  }
